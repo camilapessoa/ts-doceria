@@ -1,4 +1,4 @@
-import { PrismaClient, Produto as ProdutoType, Prisma } from '@prisma/client';
+import { Produto as ProdutoType, Prisma } from '@prisma/client';
 import { IProductRepository } from '../interfaces/IProductRepository';
 
 export class ProductService {

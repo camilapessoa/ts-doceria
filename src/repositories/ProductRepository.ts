@@ -1,5 +1,4 @@
-import { Prisma } from '@prisma/client';
-import { PrismaClient, Produto, ProdutoCreateInput } from '@prisma/client';
+import { PrismaClient, Produto, Prisma } from '@prisma/client';
 
 
 export class ProductRepository {
@@ -9,11 +8,11 @@ export class ProductRepository {
         this.prisma = new PrismaClient();
     }
 
-    async getAll(): Promise<Produto[]> {
+    async getAll(): Promise<ProdutoType[]> {
         return this.prisma.produto.findMany();
     }
 
-    async add(productData: ProdutoCreateInput): Promise<Produto> {
+    async add(productData: Prisma.ProdutoCreateInput): Promise<ProdutoType> {
         return this.prisma.produto.create({
             data: productData,
         });
