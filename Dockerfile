@@ -10,8 +10,17 @@ COPY package*.json ./
 # Instala as dependências do projeto
 RUN npm install
 
+COPY package*.json ./
+COPY prisma ./prisma/
+COPY tsconfig.json ./
+COPY src ./src
+
 # Copia o restante dos arquivos do projeto para o diretório de trabalho
 COPY . .
+
+RUN npm install
+
+RUN npm run prisma:generate
 
 # Compila o código TypeScript para JavaScript
 RUN npm run build
@@ -19,6 +28,7 @@ RUN npm run build
 # Expõe a porta que a aplicação irá rodar
 EXPOSE 3000
 
+RUN apt-get update -y && apt-get install -y openssl
 # Comando para iniciar a aplicação docker-compose up --build
 
 # CMD ["node", "dist/index.js"]

@@ -1,14 +1,21 @@
-import { IProductRepository } from "../interfaces/IProductRepository";
-import { Product } from "../models/Products";
+import { Prisma } from '@prisma/client';
+import { PrismaClient, Produto, ProdutoCreateInput } from '@prisma/client';
 
-export class ProductRepository implements IProductRepository {
-    private products: Product[] = [];
 
-    getAll(): Product[] {
-        return this.products;
+export class ProductRepository {
+    private prisma: PrismaClient;
+
+    constructor() {
+        this.prisma = new PrismaClient();
     }
 
-    add(product: Product): void {
-        this.products.push(product);
+    async getAll(): Promise<Produto[]> {
+        return this.prisma.produto.findMany();
+    }
+
+    async add(productData: ProdutoCreateInput): Promise<Produto> {
+        return this.prisma.produto.create({
+            data: productData,
+        });
     }
 }

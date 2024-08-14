@@ -1,6 +1,6 @@
-import { Product } from "../models/Products";
+import { Produto, Prisma } from '@prisma/client';
 
 export interface IProductRepository {
-    getAll(): Product[];
-    add(product: Product): void;
+    getAll(): Promise<Produto[]>;
+    add(productData: Prisma.ProdutoCreateInput): Promise<Produto>;
 }

@@ -1,0 +1,60 @@
+generator client {
+  provider      = "prisma-client-js"
+  output        = "../../node_modules/.prisma/client"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Produto {
+  ID                   Int              @id @default(autoincrement())
+  Nome                 String
+  Descricao            String?
+  Alergenos            String?
+  Valor                Float
+  QuantidadeDisponivel Int
+  CategoriaID          Int
+  Imagem               String?
+  EstoqueProduto       EstoqueProduto[]
+  ItemPedido           ItemPedido[]
+  Categoria            Categoria        @relation(fields: [CategoriaID], references: [ID])
+}
+
+model ItemPedido {
+  ID            Int     @id @default(autoincrement())
+  PrecoUnitario Float
+  PedidoID      Int
+  ProdutoID     Int
+  Quantidade    Int
+  Pedido        Pedido  @relation(fields: [PedidoID], references: [ID])
+  Produto       Produto @relation(fields: [ProdutoID], references: [ID])
+}
+
+model Pedido {
+  ID              Int          @id @default(autoincrement())
+  Status          String
+  MesaCliente     String
+  Observacao      String?
+  ValorItens      Float
+  ValorDesconto   Float?
+  TaxaAtendimento Float?
+  ValorFinal      Float
+  ItensPedidos    ItemPedido[]
+}
+
+model Categoria {
+  ID      Int       @id @default(autoincrement())
+  Nome    String
+  Produto Produto[]
+}
+
+model EstoqueProduto {
+  ID                Int     @id @default(autoincrement())
+  ProdutoID         Int
+  QuantidadeInicial Int
+  QuantidadeFinal   Int
+  Produto           Produto @relation(fields: [ProdutoID], references: [ID])
+}

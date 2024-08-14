@@ -1,6 +1,7 @@
-import { Product } from "../models/Products";
+import { Produto, Prisma } from '@prisma/client';
+
 
 export interface IProductService {
-    getAllProducts(): Product[];
-    addProduct(product: Product): void;
+    getAllProducts(): Promise<Produto[]>;
+    addProduct(productData: Prisma.ProdutoCreateInput): Promise<Produto>;
 }

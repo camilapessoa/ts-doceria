@@ -1,15 +1,14 @@
-import { IProductService } from "../interfaces/IProductService";
-import { IProductRepository } from "../interfaces/IProductRepository";
-import { Product } from "../models/Products";
+import { PrismaClient, Produto as ProdutoType, Prisma } from '@prisma/client';
+import { IProductRepository } from '../interfaces/IProductRepository';
 
-export class ProductService implements IProductService {
+export class ProductService {
     constructor(private productRepository: IProductRepository) {}
 
-    getAllProducts(): Product[] {
+    async getAllProducts(): Promise<ProdutoType[]> {
         return this.productRepository.getAll();
     }
 
-    addProduct(product: Product): void {
-        this.productRepository.add(product);
+    async addProduct(productData: Prisma.ProdutoCreateInput): Promise<ProdutoType> {
+        return this.productRepository.add(productData);
     }
 }
